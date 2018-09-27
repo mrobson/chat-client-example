@@ -58,7 +58,6 @@ export class AuthService {
 
   withoutLogin(nickName: any) {
     const headers: any = new Headers();
-    headers.append('Access-Control-Allow-Origin', '*');
     const data: HttpParams = new HttpParams().set('nickName', nickName);
 
     this.httpClient.get('http://' + this.nodeJsUrl + ':3000/join', {
