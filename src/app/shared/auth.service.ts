@@ -4,7 +4,6 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {CookieService} from 'angular2-cookie/core';
 import {Subject} from 'rxjs';
-import {Message} from './message.model';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +22,7 @@ export class AuthService {
     const data: HttpParams = new HttpParams().set('id', id);
     data.append('pw', pw);
 
-    this.httpClient.get(this.nodeJsUrl + '/login', {
+    this.httpClient.get('http://' + this.nodeJsUrl + ':3000/login', {
       responseType: 'json',
       observe: 'body',
       params: data
@@ -62,7 +61,7 @@ export class AuthService {
     headers.append('Access-Control-Allow-Origin', '*');
     const data: HttpParams = new HttpParams().set('nickName', nickName);
 
-    this.httpClient.get(this.nodeJsUrl + '/join', {
+    this.httpClient.get('http://' + this.nodeJsUrl + ':3000/join', {
       reportProgress: true,
       responseType: 'json',
       observe: 'body',
@@ -94,7 +93,7 @@ export class AuthService {
     console.log('leave_chat');
     const data: HttpParams = new HttpParams().set('nickName', nickName);
 
-    this.httpClient.get(this.nodeJsUrl + '/leave', {
+    this.httpClient.get('http://' + this.nodeJsUrl + ':3000/leave', {
       reportProgress: true,
       responseType: 'json',
       observe: 'body',

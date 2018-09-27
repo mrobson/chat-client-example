@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  nodeJsUrl: 'http://localhost:3000'
+  nodeJsUrl: 'chat-server'
 
 };
 

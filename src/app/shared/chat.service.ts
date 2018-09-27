@@ -24,7 +24,7 @@ export class ChatService {
 
   public getMessages() {
     const observable = new Observable(observer => {
-      this.socket = io(this.nodeJsUrl);
+      this.socket = io('http://' + this.nodeJsUrl + ':3000');
       this.socket.on('message', (message: Message) => {
         observer.next(message);
       });
@@ -43,7 +43,7 @@ export class ChatService {
 
   public getAllMessages() {
 
-    this.httpClient.get(this.nodeJsUrl + '/get_messages', {
+    this.httpClient.get('http://' + this.nodeJsUrl + ':3000/get_messages', {
       responseType: 'json',
       observe: 'body',
     }).subscribe(
