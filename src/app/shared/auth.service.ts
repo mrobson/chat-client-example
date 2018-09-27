@@ -22,7 +22,7 @@ export class AuthService {
     const data: HttpParams = new HttpParams().set('id', id);
     data.append('pw', pw);
 
-    this.httpClient.get(this.nodeJsUrl + ':3000/login', {
+    this.httpClient.get(this.nodeJsUrl + '/login', {
       responseType: 'json',
       observe: 'body',
       params: data
@@ -60,7 +60,7 @@ export class AuthService {
     const headers: any = new Headers();
     const data: HttpParams = new HttpParams().set('nickName', nickName);
 
-    this.httpClient.get( this.nodeJsUrl + ':3000/join', {
+    this.httpClient.get( this.nodeJsUrl + '/join', {
       reportProgress: true,
       responseType: 'json',
       observe: 'body',
@@ -92,7 +92,7 @@ export class AuthService {
     console.log('leave_chat');
     const data: HttpParams = new HttpParams().set('nickName', nickName);
 
-    this.httpClient.get( this.nodeJsUrl + ':3000/leave', {
+    this.httpClient.get( this.nodeJsUrl + '/leave', {
       reportProgress: true,
       responseType: 'json',
       observe: 'body',

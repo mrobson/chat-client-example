@@ -24,7 +24,7 @@ export class ChatService {
 
   public getMessages() {
     const observable = new Observable(observer => {
-      this.socket = io( this.nodeJsUrl + ':3000');
+      this.socket = io( this.nodeJsUrl );
       this.socket.on('message', (message: Message) => {
         observer.next(message);
       });
