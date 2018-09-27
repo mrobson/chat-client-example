@@ -8,7 +8,7 @@ import {Subject} from 'rxjs';
 @Injectable()
 export class AuthService {
 
-  private nodeJsUrl = environment.nodeJsUrl;
+  private nodeJsUrl = 'http://' + environment.nodeJsUrl;
   private nickName;
   public duplicatedUserChanged = new Subject<boolean>();
 
