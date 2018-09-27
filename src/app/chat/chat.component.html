@@ -1,0 +1,26 @@
+<div class="container-chat text-center mt-lg-5">
+
+  <div class="chat-info"> Welcome to OpenShift Session ChatRoom: {{nickName}}</div>
+
+  <div class="col h-100">
+
+    <br/>
+    <div class="messages" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+      <div *ngFor="let message of messages" class="msg">
+        ({{message.date| date: 'h:mm:ss'}}): {{message.sender}} => {{message.msg}}
+      </div>
+    </div>
+    <form [formGroup]="msgForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <textarea name="message" id="message" cols="90" rows="5"
+                  placeholder="Enter your message..." formControlName="msg"    ></textarea>
+      </div>
+      <br/>
+
+      <input type="submit" id="send-message" class="btn-primary" value="Send Message"  [disabled]="!msgForm.dirty && !(msgForm.value['msg']=='')"/>&nbsp;
+      <button (click)="leaveChat()" class="btn-danger">Leave Chat</button><div class="agent"></div>
+    </form>
+
+
+  </div>
+</div>
