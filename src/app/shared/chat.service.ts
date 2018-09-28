@@ -10,7 +10,7 @@ import {Subject} from 'rxjs';
 
 @Injectable()
 export class ChatService {
-  private nodeJsUrl = environment.nodeJsUrl;
+  private nodeJsUrl = 'http://' + environment.nodeJsUrl;
   private socket;
   private messageList: Message[] = [];
   public allMessageChanged = new Subject();
@@ -48,7 +48,7 @@ export class ChatService {
     headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
     headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
 
-    this.httpClient.get(this.nodeJsUrl + ':3000/get_messages', {
+    this.httpClient.get( this.nodeJsUrl + '/get_messages', {
       responseType: 'json',
       observe: 'body',
       headers: headers
