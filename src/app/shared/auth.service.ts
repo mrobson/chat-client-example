@@ -18,6 +18,10 @@ export class AuthService {
   }
 
   login(id: string, pw: string) {
+    const headers: HttpHeaders = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Methods','GET, POST, PATCH, PUT, DELETE, OPTIONS');
+    headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
 
     const data: HttpParams = new HttpParams().set('id', id);
     data.append('pw', pw);
@@ -25,6 +29,7 @@ export class AuthService {
     this.httpClient.get(this.nodeJsUrl + '/login', {
       responseType: 'json',
       observe: 'body',
+      headers: headers,
       params: data
     }).subscribe(
       (response) => {
@@ -57,7 +62,11 @@ export class AuthService {
 
 
   withoutLogin(nickName: any) {
-    const headers: any = new Headers();
+    const headers: HttpHeaders = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Methods','GET, POST, PATCH, PUT, DELETE, OPTIONS');
+    headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
+
     const data: HttpParams = new HttpParams().set('nickName', nickName);
 
     this.httpClient.get( this.nodeJsUrl + '/join', {
@@ -90,12 +99,18 @@ export class AuthService {
 
   leave_chat(nickName: any) {
     console.log('leave_chat');
+    const headers: HttpHeaders = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Methods','GET, POST, PATCH, PUT, DELETE, OPTIONS');
+    headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
+
     const data: HttpParams = new HttpParams().set('nickName', nickName);
 
     this.httpClient.get( this.nodeJsUrl + '/leave', {
       reportProgress: true,
       responseType: 'json',
       observe: 'body',
+      headers: headers,
       params: data
     }).subscribe(
       (response) => {

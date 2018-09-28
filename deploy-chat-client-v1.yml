@@ -1,0 +1,187 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/desired-replicas: "1"
+      openshift.io/deployer-pod.completed-at: 2018-09-27 22:44:32 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2018-09-27 22:43:54 +0000 UTC
+      openshift.io/deployer-pod.name: chat-client-1-deploy
+      openshift.io/deployer-pod.started-at: 2018-09-27 22:43:54 +0000 UTC
+      openshift.io/deployment-config.latest-version: "1"
+      openshift.io/deployment-config.name: chat-client
+      openshift.io/deployment.phase: Failed
+      openshift.io/deployment.replicas: "0"
+      openshift.io/deployment.status-reason: config change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"v1","metadata":{"name":"chat-client","namespace":"aaa","selfLink":"/apis/apps.openshift.io/v1/namespaces/aaa/deploymentconfigs/chat-client","uid":"cffedfcc-c2a6-11e8-b6e5-0a98abc51b14","resourceVersion":"494557","generation":2,"creationTimestamp":"2018-09-27T22:43:54Z","labels":{"app":"chat-client"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["chat-client"],"from":{"kind":"ImageStreamTag","namespace":"chat","name":"chat-client:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/chat/chat-client@sha256:3f535d77f1f9ac030afd473a75136c4bc70256c214f3b0c60b77b6363225562f"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"chat-client","deploymentconfig":"chat-client"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"chat-client","deploymentconfig":"chat-client"}},"spec":{"containers":[{"name":"chat-client","image":"docker-registry.default.svc:5000/chat/chat-client@sha256:3f535d77f1f9ac030afd473a75136c4bc70256c214f3b0c60b77b6363225562f","ports":[{"containerPort":4200,"protocol":"TCP"}],"resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":1,"observedGeneration":2,"replicas":0,"updatedReplicas":0,"availableReplicas":0,"unavailableReplicas":0,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"False","lastUpdateTime":"2018-09-27T22:43:54Z","lastTransitionTime":"2018-09-27T22:43:54Z","message":"Deployment config does not have minimum availability."},{"type":"Progressing","status":"False","lastUpdateTime":"2018-09-27T22:44:33Z","lastTransitionTime":"2018-09-27T22:44:33Z","reason":"ProgressDeadlineExceeded","message":"replication controller \"chat-client-1\" has failed progressing"}]}}
+    creationTimestamp: null
+    generation: 1
+    labels:
+      app: chat-client
+      openshift.io/deployment-config.name: chat-client
+    name: chat-client-1
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: chat-client
+      uid: cffedfcc-c2a6-11e8-b6e5-0a98abc51b14
+  spec:
+    replicas: 0
+    selector:
+      app: chat-client
+      deployment: chat-client-1
+      deploymentconfig: chat-client
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "1"
+          openshift.io/deployment-config.name: chat-client
+          openshift.io/deployment.name: chat-client-1
+        creationTimestamp: null
+        labels:
+          app: chat-client
+          deployment: chat-client-1
+          deploymentconfig: chat-client
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/chat/chat-client@sha256:3f535d77f1f9ac030afd473a75136c4bc70256c214f3b0c60b77b6363225562f
+          imagePullPolicy: Always
+          name: chat-client
+          ports:
+          - containerPort: 4200
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    replicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: chat-client
+    name: chat-client
+  spec:
+    ports:
+    - name: 4200-tcp
+      port: 4200
+      protocol: TCP
+      targetPort: 4200
+    selector:
+      app: chat-client
+      deploymentconfig: chat-client
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    generation: 2
+    labels:
+      app: chat-client
+    name: chat-client
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: chat-client
+      deploymentconfig: chat-client
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: chat-client
+          deploymentconfig: chat-client
+      spec:
+        containers:
+        - image: docker.io/ljhiyh/chat-client@sha256:176504a04fe902bf70f8c13358a340b65157c0250b864461cf5f89a5c34a787a
+          imagePullPolicy: IfNotPresent
+          name: chat-client
+          ports:
+          - containerPort: 4200
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - chat-client
+        from:
+          kind: ImageStreamTag
+          name: chat-client:v1
+          namespace: aaa
+        lastTriggeredImage: docker.io/ljhiyh/chat-client@sha256:176504a04fe902bf70f8c13358a340b65157c0250b864461cf5f89a5c34a787a
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/image.dockerRepositoryCheck: 2018-09-27T22:44:42Z
+    creationTimestamp: null
+    generation: 2
+    labels:
+      app: chat-client
+    name: chat-client
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: docker.io/ljhiyh/chat-client:v1
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/aaa/chat-client:v1
+      generation: 2
+      importPolicy: {}
+      name: v1
+      referencePolicy:
+        type: Source
+  status:
+    dockerImageRepository: ""
+kind: List
+metadata: {}
