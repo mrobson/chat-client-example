@@ -17,7 +17,7 @@ export class MainComponent implements OnInit {
   public logined_id = '';
   subscription1 = new Subscription();
   public errorMsg: string;
-  public duplicatedUser: boolean;
+  public errorShow: boolean;
 
   constructor(private authService: AuthService,
               private router: Router,
@@ -33,7 +33,6 @@ export class MainComponent implements OnInit {
       .subscribe(
         (status: string) => {
           if (status === 'DUP_NAME') {
-            this.duplicatedUser = true;
             this.errorMsg = 'The user name exist, please use other name';
             console.log('user exist');
           } else if (status === '503') {
@@ -42,8 +41,15 @@ export class MainComponent implements OnInit {
             this.errorMsg = 'Auth Server Gateway Timeout';
           } else {
             this.errorMsg = status;
-            this.duplicatedUser = false;
           }
+
+          if (status === '') {
+            this.errorShow = false;
+          } else {
+            this.errorShow = true;
+          }
+
+
         }
       );
   }

@@ -42,15 +42,15 @@ export class AuthService {
           this._cookieService.put('logined', 'true');
           this._cookieService.put('user', id);
           this.router.navigate(['chat', id]);
+          this.errorCodeChanged.next('');
         } else {
           this.errorCodeChanged.next(status);
         }
 
       },
       err => {
-
         console.log(err);
-        this.errorCodeChanged.next(err.toString());
+        this.errorCodeChanged.next(err.statusText);
       }
     );
 
@@ -88,7 +88,7 @@ export class AuthService {
         if (status === 'OK') {
           this.nickName = nickName;
           this.router.navigate(['chat', nickName]);
-
+          this.errorCodeChanged.next('');
         } else {
           this.errorCodeChanged.next(status);
         }
@@ -96,7 +96,7 @@ export class AuthService {
       },
       err => {
         console.log(err);
-        this.errorCodeChanged.next(err.toString());
+        this.errorCodeChanged.next(err.statusText);
       }
     );
 
@@ -124,13 +124,14 @@ export class AuthService {
         console.log(response);
         const status: string = response['status'];
         if (status === 'OK') {
-
           this.nickName = '';
           this.router.navigate(['/']);
+          this.errorCodeChanged.next('');
         }
       },
       err => {
         console.log(err);
+        this.errorCodeChanged.next(err.statusText);
       }
     );
 
