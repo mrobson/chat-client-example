@@ -29,14 +29,19 @@ export class MainComponent implements OnInit {
     this.initForm();
     this.isAuthenticated();
 
-    this.subscription1 = this.authService.duplicatedUserChanged
+    this.subscription1 = this.authService.errorCodeChanged
       .subscribe(
-        (exist: boolean) => {
-          if (exist) {
+        (status: string) => {
+          if (status === 'DUP_NAME') {
             this.duplicatedUser = true;
             this.errorMsg = 'The user name exist, please use other name';
             console.log('user exist');
+          } else if (status === '503') {
+            this.errorMsg = 'Auth Server Service Unavailable';
+          } else if (status === '504') {
+            this.errorMsg = 'Auth Server Gateway Timeout';
           } else {
+            this.errorMsg = status;
             this.duplicatedUser = false;
           }
         }
@@ -66,11 +71,11 @@ export class MainComponent implements OnInit {
   }
 
   onLogout() {
-    this.authService.logout(this._cookieService.get('logined'));
+    this.authService.logout(this._cookieService.get('user'));
   }
 
   isAuthenticated() {
-    const id = this._cookieService.get('logined');
+    const id = this._cookieService.get('user');
 
     this.logined_id = id !== undefined ? id : '';
     return id !== undefined;

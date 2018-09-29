@@ -10,7 +10,7 @@ export class AuthService {
 
   private nodeJsUrl = 'http://' + environment.nodeJsUrl;
   private nickName;
-  public duplicatedUserChanged = new Subject<boolean>();
+  public errorCodeChanged = new Subject<string>();
 
   constructor(private httpClient: HttpClient,
               private router: Router,
@@ -20,7 +20,7 @@ export class AuthService {
   login(id: string, pw: string) {
     const headers: HttpHeaders = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods','GET, POST, PATCH, PUT, DELETE, OPTIONS');
+    headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
     headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
 
     const data: HttpParams = new HttpParams().set('id', id);
@@ -35,17 +35,22 @@ export class AuthService {
       (response) => {
         console.log(response);
         const status: string = response['status'];
+        const msg: string = response['msg'];
         if (status === 'OK') {
 
           this.nickName = id;
-          this._cookieService.put('logined', id);
+          this._cookieService.put('logined', 'true');
+          this._cookieService.put('user', id);
           this.router.navigate(['chat', id]);
         } else {
-          this.duplicatedUserChanged.next(true);
+          this.errorCodeChanged.next(status);
         }
+
       },
       err => {
+
         console.log(err);
+        this.errorCodeChanged.next(err.toString());
       }
     );
 
@@ -64,12 +69,12 @@ export class AuthService {
   withoutLogin(nickName: any) {
     const headers: HttpHeaders = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods','GET, POST, PATCH, PUT, DELETE, OPTIONS');
+    headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
     headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
 
     const data: HttpParams = new HttpParams().set('nickName', nickName);
 
-    this.httpClient.get( this.nodeJsUrl + '/join', {
+    this.httpClient.get(this.nodeJsUrl + '/join', {
       reportProgress: true,
       responseType: 'json',
       observe: 'body',
@@ -79,17 +84,19 @@ export class AuthService {
       (response) => {
         console.log(response);
         const status: string = response['status'];
+        const msg: string = response['msg'];
         if (status === 'OK') {
           this.nickName = nickName;
           this.router.navigate(['chat', nickName]);
 
         } else {
-          this.duplicatedUserChanged.next(true);
+          this.errorCodeChanged.next(status);
         }
 
       },
       err => {
         console.log(err);
+        this.errorCodeChanged.next(err.toString());
       }
     );
 
@@ -101,12 +108,12 @@ export class AuthService {
     console.log('leave_chat');
     const headers: HttpHeaders = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods','GET, POST, PATCH, PUT, DELETE, OPTIONS');
+    headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
     headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
 
     const data: HttpParams = new HttpParams().set('nickName', nickName);
 
-    this.httpClient.get( this.nodeJsUrl + '/leave', {
+    this.httpClient.get(this.nodeJsUrl + '/leave', {
       reportProgress: true,
       responseType: 'json',
       observe: 'body',

@@ -4,7 +4,8 @@
 
   padding: 15px;
   margin: 0 auto;
-
+  background-image: url("../images/main.jpg");
+  background-repeat: no-repeat;
 }
 
 .agent{
