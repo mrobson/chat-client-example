@@ -18,13 +18,21 @@ export class AuthService {
   }
 
   login(id: string, pw: string) {
-    const headers: HttpHeaders = new HttpHeaders();
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
-    headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
+    // this._cookieService.put('logined', 'true', {domain: '.toronto.openshiftworkshop.com'});
+    this._cookieService.put('logined', 'true' );
+    this._cookieService.put('user', id);
+
+
+    // const headers: HttpHeaders = new HttpHeaders();
+    const headers: HttpHeaders = new HttpHeaders().set('Access-Control-Allow-Credentials', 'true');
+    // headers.append('Access-Control-Allow-Origin', '*');
+    // headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+    // headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
+    // headers.append('Access-Control-Allow-Credentials', 'true');
 
     const data: HttpParams = new HttpParams().set('id', id);
     data.append('pw', pw);
+
 
     this.httpClient.get(this.nodeJsUrl + '/login', {
       responseType: 'json',
@@ -39,8 +47,7 @@ export class AuthService {
         if (status === 'OK') {
 
           this.nickName = id;
-          this._cookieService.put('logined', 'true');
-          this._cookieService.put('user', id);
+
           this.router.navigate(['chat', id]);
           this.errorCodeChanged.next('');
         } else {
@@ -51,6 +58,8 @@ export class AuthService {
       err => {
         console.log(err);
         this.errorCodeChanged.next(err.statusText);
+        this._cookieService.remove('logined');
+        this._cookieService.remove('user');
       }
     );
 
@@ -59,6 +68,7 @@ export class AuthService {
   logout(id: string) {
 
     this._cookieService.remove('logined');
+    this._cookieService.remove('user');
     this.nickName = '';
     this.leave_chat(id);
 
@@ -67,15 +77,15 @@ export class AuthService {
 
 
   withoutLogin(nickName: any) {
-    const headers: HttpHeaders = new HttpHeaders();
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
-    headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
+    // const headers: HttpHeaders = new HttpHeaders();
+    const headers: HttpHeaders = new HttpHeaders().set('Access-Control-Allow-Credentials', 'true');
+    // headers.append('Access-Control-Allow-Origin', '*');
+    // headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+    // headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
 
     const data: HttpParams = new HttpParams().set('nickName', nickName);
 
     this.httpClient.get(this.nodeJsUrl + '/join', {
-      reportProgress: true,
       responseType: 'json',
       observe: 'body',
       headers: headers,
@@ -106,15 +116,17 @@ export class AuthService {
 
   leave_chat(nickName: any) {
     console.log('leave_chat');
-    const headers: HttpHeaders = new HttpHeaders();
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
-    headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
+    // const headers: HttpHeaders = new HttpHeaders()
+    const headers: HttpHeaders = new HttpHeaders().set('Access-Control-Allow-Credentials', 'true');
+      // .set('Access-Control-Allow-Origin', '*')
+      // .set('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS')
+      // .set('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
 
+    // console.log(headers);
     const data: HttpParams = new HttpParams().set('nickName', nickName);
 
+
     this.httpClient.get(this.nodeJsUrl + '/leave', {
-      reportProgress: true,
       responseType: 'json',
       observe: 'body',
       headers: headers,

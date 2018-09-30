@@ -43,22 +43,23 @@ export class ChatService {
 
 
   public getAllMessages() {
-    const headers: HttpHeaders = new HttpHeaders();
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
-    headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
+    const headers: HttpHeaders = new HttpHeaders().set('Access-Control-Allow-Credentials', 'true');
+    // headers.append('Access-Control-Allow-Origin', '*');
+    // headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+    // headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
 
-    this.httpClient.get( this.nodeJsUrl + '/get_messages', {
+    this.httpClient.get(this.nodeJsUrl + '/get_messages', {
       responseType: 'json',
       observe: 'body',
-      headers: headers
+      headers: headers,
     }).subscribe(
       (data: Message[]) => {
-        this.messageList = data;
-        console.log(data);
-        console.log(this.messageList);
-        this.allMessageChanged.next(this.messageList.slice());
-
+        if (data !== null) {
+          this.messageList = data;
+          console.log(data);
+          console.log(this.messageList);
+          this.allMessageChanged.next(this.messageList.slice());
+        }
       },
       err => {
         console.log(err);

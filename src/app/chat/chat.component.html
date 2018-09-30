@@ -3,17 +3,19 @@
   <div class="chat-info"> Welcome to OpenShift Session ChatRoom: {{nickName}}</div>
 
   <div class="col h-100">
-
     <br/>
     <div class="messages" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+
       <div *ngFor="let message of messages" class="msg">
         ({{message.date| date: 'h:mm:ss'}}): {{message.sender}} => {{message.msg}}
       </div>
     </div>
     <form [formGroup]="msgForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <textarea name="message" id="message" cols="90" rows="5"
-                  placeholder="Enter your message..." formControlName="msg"    ></textarea>
+        <!--<textarea name="message" id="message" cols="90" rows="5"-->
+                  <!--placeholder="Enter your message..." formControlName="msg"  tabindex="-1"></textarea>-->
+
+        <input name="message" id="message" type="text" placeholder="Enter your message..." formControlName="msg" >
       </div>
       <br/>
 
