@@ -1,4 +1,3 @@
-import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import * as io from 'socket.io-client';
 import {Message} from './message.model';
@@ -6,16 +5,20 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import 'rxjs/add/operator/map';
 import {Subject} from 'rxjs';
-
+import {DemoService} from './demo.service';
+import {Injectable} from '@angular/core';
 
 @Injectable()
 export class ChatService {
+
   private nodeJsUrl = 'http://' + environment.nodeJsUrl;
   private socket;
   private messageList: Message[] = [];
   public allMessageChanged = new Subject();
 
-  constructor(private httpClient: HttpClient) {
+
+  constructor(private httpClient: HttpClient,
+              private demoService: DemoService) {
   }
 
   public sendMessage(nickName, message) {
@@ -43,10 +46,7 @@ export class ChatService {
 
 
   public getAllMessages() {
-    const headers: HttpHeaders = new HttpHeaders().set('Access-Control-Allow-Credentials', 'true');
-    // headers.append('Access-Control-Allow-Origin', '*');
-    // headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
-    // headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
+    const headers: HttpHeaders = new HttpHeaders();
 
     this.httpClient.get(this.nodeJsUrl + '/get_messages', {
       responseType: 'json',
@@ -62,8 +62,9 @@ export class ChatService {
         }
       },
       err => {
-        console.log(err);
+        this.demoService.errorCodeChanged.next(err.statusText);
       }
     );
   }
+
 }

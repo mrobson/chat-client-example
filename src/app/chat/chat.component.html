@@ -1,26 +1,28 @@
 <div class="container-chat text-center mt-lg-5">
 
   <div class="chat-info"> Welcome to OpenShift Session ChatRoom: {{nickName}}</div>
-
+  <div class="server-info" > Connected to Chat Server <span class="server-version">{{serverVersion}}</span></div>
   <div class="col h-100">
     <br/>
     <div class="messages" #scrollMe [scrollTop]="scrollMe.scrollHeight">
 
-      <div *ngFor="let message of messages" class="msg">
+      <div *ngFor="let message of messages" class="flow">
         ({{message.date| date: 'h:mm:ss'}}): {{message.sender}} => {{message.msg}}
       </div>
     </div>
     <form [formGroup]="msgForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <!--<textarea name="message" id="message" cols="90" rows="5"-->
-                  <!--placeholder="Enter your message..." formControlName="msg"  tabindex="-1"></textarea>-->
+        <!--placeholder="Enter your message..." formControlName="msg"  tabindex="-1"></textarea>-->
 
-        <input name="message" id="message" type="text" placeholder="Enter your message..." formControlName="msg" >
+        <input name="message" id="message" type="text" placeholder="Enter your message..." formControlName="msg">
       </div>
       <br/>
 
-      <input type="submit" id="send-message" class="btn-primary" value="Send Message"  [disabled]="!msgForm.dirty && !(msgForm.value['msg']=='')"/>&nbsp;
-      <button (click)="leaveChat()" class="btn-danger">Leave Chat</button><div class="agent"></div>
+      <input type="submit" id="send-message" class="btn-primary" value="Send Message"
+             [disabled]="!msgForm.dirty && !(msgForm.value['msg']=='')"/>&nbsp;
+      <button (click)="leaveChat()" class="btn-danger">Leave Chat</button>
+      <div class="redhat_logo" #redhat_logo></div>
     </form>
 
 

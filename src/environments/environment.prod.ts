@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  nodeJsUrl: 'chat-server-example-chat.apps.toronto.openshiftworkshop.com'
 };

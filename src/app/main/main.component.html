@@ -49,7 +49,7 @@
             <button class="btn btn-secondary  mt-2" type="submit" >Sign in</button>
           </ng-template>
           <ng-template [ngIf]="isAuthenticated()">
-            <button class="btn btn-danger  mt-2" type="submit" (click)="onLogout()">Sign out</button>
+            <button class="btn btn-danger  mt-2" type="button" (click)="onLogout()">Sign out</button>
             <button class="btn btn-secondary  mt-2" [routerLink]='["/chat",logined_id]'>Chat Room</button>
           </ng-template>
         </form>

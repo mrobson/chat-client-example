@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AuthService} from '../shared/auth.service';
 import {Router} from '@angular/router';
-import {CookieService} from 'angular2-cookie/core';
+import {CookieService} from 'angular2-cookie';
 import {Subscription} from 'rxjs';
+import {DemoService} from '../shared/demo.service';
 
 
 @Component({
@@ -11,7 +12,7 @@ import {Subscription} from 'rxjs';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit , OnDestroy{
   userForm: FormGroup;
   nickNameForm: FormGroup;
   public logined_id = '';
@@ -20,6 +21,7 @@ export class MainComponent implements OnInit {
   public errorShow: boolean;
 
   constructor(private authService: AuthService,
+              private demoService: DemoService,
               private router: Router,
               private _cookieService: CookieService) {
 
@@ -29,7 +31,7 @@ export class MainComponent implements OnInit {
     this.initForm();
     this.isAuthenticated();
 
-    this.subscription1 = this.authService.errorCodeChanged
+    this.subscription1 = this.demoService.errorCodeChanged
       .subscribe(
         (status: string) => {
           if (status === 'DUP_NAME') {
@@ -85,5 +87,9 @@ export class MainComponent implements OnInit {
 
     this.logined_id = id !== undefined ? id : '';
     return id !== undefined;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription1.unsubscribe();
   }
 }

@@ -1,0 +1,17 @@
+<div class="container-result text-center">
+  <h3 class="title">This is emulation page</h3>
+  <button class="btn btn-primary" (click)="onRefresh()">Refresh(Every 1 Sec)</button>
+
+  <br/>
+  <div class="resultBox" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+    <div *ngFor="let emulateResult of emulateResults" class="result" >
+      <span class="flow" *ngFor="let flow of emulateResult; let i=index">
+        <span style="color: red"> {{flow.layer}} </span> : <span
+        style="color: white;font-style: italic"> {{flow.msg}} </span>
+        <ng-template [ngIf]="!(i === emulateResult.length-1)">
+          <span class="arrow">  ==>  </span>
+        </ng-template>
+      </span>
+    </div>
+  </div>
+</div>

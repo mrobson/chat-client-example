@@ -1,34 +1,25 @@
-import {HttpClient, HttpHeaders, HttpParams, HttpRequest} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {CookieService} from 'angular2-cookie/core';
-import {Subject} from 'rxjs';
+import {CookieService} from 'angular2-cookie';
+import {DemoService} from './demo.service';
 
 @Injectable()
 export class AuthService {
 
   private nodeJsUrl = 'http://' + environment.nodeJsUrl;
   private nickName;
-  public errorCodeChanged = new Subject<string>();
+
 
   constructor(private httpClient: HttpClient,
+              private demoService: DemoService,
               private router: Router,
               private _cookieService: CookieService) {
   }
 
   login(id: string, pw: string) {
-    // this._cookieService.put('logined', 'true', {domain: '.toronto.openshiftworkshop.com'});
-    this._cookieService.put('logined', 'true' );
-    this._cookieService.put('user', id);
-
-
-    // const headers: HttpHeaders = new HttpHeaders();
-    const headers: HttpHeaders = new HttpHeaders().set('Access-Control-Allow-Credentials', 'true');
-    // headers.append('Access-Control-Allow-Origin', '*');
-    // headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
-    // headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
-    // headers.append('Access-Control-Allow-Credentials', 'true');
+    const headers: HttpHeaders = new HttpHeaders();
 
     const data: HttpParams = new HttpParams().set('id', id);
     data.append('pw', pw);
@@ -45,21 +36,20 @@ export class AuthService {
         const status: string = response['status'];
         const msg: string = response['msg'];
         if (status === 'OK') {
-
           this.nickName = id;
 
+          this.demoService.errorCodeChanged.next('');
+          this._cookieService.put('logined', 'true');
+          this._cookieService.put('user', id);
           this.router.navigate(['chat', id]);
-          this.errorCodeChanged.next('');
         } else {
-          this.errorCodeChanged.next(status);
+          this.demoService.errorCodeChanged.next(status);
         }
 
       },
       err => {
         console.log(err);
-        this.errorCodeChanged.next(err.statusText);
-        this._cookieService.remove('logined');
-        this._cookieService.remove('user');
+        this.demoService.errorCodeChanged.next(err.statusText);
       }
     );
 
@@ -77,12 +67,7 @@ export class AuthService {
 
 
   withoutLogin(nickName: any) {
-    // const headers: HttpHeaders = new HttpHeaders();
-    const headers: HttpHeaders = new HttpHeaders().set('Access-Control-Allow-Credentials', 'true');
-    // headers.append('Access-Control-Allow-Origin', '*');
-    // headers.append('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
-    // headers.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
-
+    const headers: HttpHeaders = new HttpHeaders();
     const data: HttpParams = new HttpParams().set('nickName', nickName);
 
     this.httpClient.get(this.nodeJsUrl + '/join', {
@@ -98,15 +83,15 @@ export class AuthService {
         if (status === 'OK') {
           this.nickName = nickName;
           this.router.navigate(['chat', nickName]);
-          this.errorCodeChanged.next('');
+          this.demoService.errorCodeChanged.next('');
         } else {
-          this.errorCodeChanged.next(status);
+          this.demoService.errorCodeChanged.next(status);
         }
 
       },
       err => {
         console.log(err);
-        this.errorCodeChanged.next(err.statusText);
+        this.demoService.errorCodeChanged.next(err.statusText);
       }
     );
 
@@ -116,15 +101,8 @@ export class AuthService {
 
   leave_chat(nickName: any) {
     console.log('leave_chat');
-    // const headers: HttpHeaders = new HttpHeaders()
-    const headers: HttpHeaders = new HttpHeaders().set('Access-Control-Allow-Credentials', 'true');
-      // .set('Access-Control-Allow-Origin', '*')
-      // .set('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS')
-      // .set('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
-
-    // console.log(headers);
+    const headers: HttpHeaders = new HttpHeaders()
     const data: HttpParams = new HttpParams().set('nickName', nickName);
-
 
     this.httpClient.get(this.nodeJsUrl + '/leave', {
       responseType: 'json',
@@ -138,12 +116,12 @@ export class AuthService {
         if (status === 'OK') {
           this.nickName = '';
           this.router.navigate(['/']);
-          this.errorCodeChanged.next('');
+          this.demoService.errorCodeChanged.next('');
         }
       },
       err => {
         console.log(err);
-        this.errorCodeChanged.next(err.statusText);
+        this.demoService.errorCodeChanged.next(err.statusText);
       }
     );
 

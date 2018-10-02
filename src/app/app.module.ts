@@ -10,12 +10,17 @@ import {ChatComponent} from './chat/chat.component';
 import {ChatService} from './shared/chat.service';
 import {AuthService} from './shared/auth.service';
 import {CookieService} from 'angular2-cookie/core';
+import {DemoService} from './shared/demo.service';
+import { EmulateComponent } from './emulate/emulate.component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
-    ChatComponent
+    ChatComponent,
+    EmulateComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +29,7 @@ import {CookieService} from 'angular2-cookie/core';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [ChatService, AuthService, CookieService],
+  providers: [ChatService, AuthService, DemoService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

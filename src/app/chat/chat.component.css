@@ -4,22 +4,14 @@
 
   padding: 15px;
   margin: 0 auto;
-
-  background-image: url("../images/main.jpg");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center center;
-
 }
 
-.agent{
-  background-image: url("https://connect.redhat.com/sites/all/themes/rhc4tp/dist/images/logo-rh.png");
+.redhat_logo {
   height: 145px;
   width: 450px;
-  /*background-color: green;*/
-  /*border: 1px solid red;*/
   margin: 0 auto;
 }
+
 .messages {
   border: 1px solid darkgrey;
   border-bottom: none;
@@ -29,8 +21,11 @@
   word-wrap: break-word;
   overflow-x: hidden;
 
+  background-image: url("../images/main.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center center;
 }
-
 
 #message {
   width: 100%;
@@ -39,9 +34,7 @@
   background-color: #f9f9f9;
 }
 
-
-
-.msg {
+.flow {
   width: 100%;
   color: white;
   background-color: #333333;
@@ -52,28 +45,42 @@
 }
 
 /*.user {*/
-  /*float: left;*/
-  /*border-right: 1px solid #f9f9f9 ;*/
-  /*margin-right: 10px;*/
-  /*margin-left: 10px;*/
-  /*font-weight: bold;*/
+/*float: left;*/
+/*border-right: 1px solid #f9f9f9 ;*/
+/*margin-right: 10px;*/
+/*margin-left: 10px;*/
+/*font-weight: bold;*/
 /*}*/
 
 /*.users{*/
-  /*float: left;*/
-  /*display: block;*/
-  /*border: 1px green solid;*/
-  /*height: 70%;*/
-  /*max-height: 80%;*/
+/*float: left;*/
+/*display: block;*/
+/*border: 1px green solid;*/
+/*height: 70%;*/
+/*max-height: 80%;*/
 /*}*/
 
 /*.txt {*/
 
-
 /*}*/
 
-.chat-info{
+.chat-info {
   font-size: 20px;
   font-weight: 700;
   height: 40px;
 }
+
+.server-info {
+  font-size: 20px;
+  font-weight: 900;
+  height: 40px;
+  margin-top: 20px;
+}
+
+.server-version {
+  color: red;
+  font-style: italic;
+  min-font-size: 25px;
+
+}
+
