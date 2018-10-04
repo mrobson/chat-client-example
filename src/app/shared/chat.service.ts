@@ -28,7 +28,7 @@ export class ChatService {
 
   public getMessages() {
     const observable = new Observable(observer => {
-      this.socket = io(this.nodeJsUrl);
+      this.socket = io(this.nodeJsUrl,{transports: ['websocket']});
       this.socket.on('message', (message: Message) => {
         observer.next(message);
       });
