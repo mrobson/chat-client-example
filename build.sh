@@ -1,6 +1,8 @@
-for docker in $(ls ./dockerfile/ |grep -v baseimage)
-do 
-  cp  ./dockerfile/$docker/Dockerfile .
-  docker build -t docker.io/ljhiyh/chat-client:$docker .
-  docker push docker.io/ljhiyh/chat-client:$docker
-done
+#for docker in $(ls ./dockerfiles/ |grep -v baseimage)
+#do 
+  docker=v1
+  echo $docker
+  cp  ./dockerfiles/$docker/Dockerfile .
+  docker build -t docker.io/mrobson/chat-client:$docker .
+  docker push docker.io/mrobson/chat-client:$docker
+#done

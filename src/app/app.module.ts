@@ -9,7 +9,7 @@ import {MainComponent} from './main/main.component';
 import {ChatComponent} from './chat/chat.component';
 import {ChatService} from './shared/chat.service';
 import {AuthService} from './shared/auth.service';
-import {CookieService} from 'angular2-cookie/core';
+import { BaseCookieOptions, CookieService, CookieOptions } from 'angular2-cookie/core';
 import {DemoService} from './shared/demo.service';
 import { EmulateComponent } from './emulate/emulate.component';
 
@@ -29,8 +29,12 @@ import { EmulateComponent } from './emulate/emulate.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [ChatService, AuthService, DemoService, CookieService],
-  bootstrap: [AppComponent]
+  providers: [ChatService, AuthService, DemoService, CookieService, { provide: CookieService, useFactory: cookieServiceFactory }],
+  bootstrap: [AppComponent],
 })
 export class AppModule {
+}
+
+export function cookieServiceFactory() {
+  return new CookieService();
 }

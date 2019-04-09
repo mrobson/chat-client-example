@@ -6,7 +6,7 @@ import {Flow} from '../emulate/emulate.model';
 
 @Injectable()
 export class DemoService {
-  private nodeJsUrl = 'http://' + environment.nodeJsUrl;
+  private nodeJsUrl = 'http://' + environment.APIKeys.serverurl;
   private redhatLogo;
   public imageChanged = new Subject();
   public serverVersionChanged = new Subject<string>();

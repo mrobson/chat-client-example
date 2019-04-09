@@ -8,7 +8,7 @@ import {DemoService} from './demo.service';
 @Injectable()
 export class AuthService {
 
-  private nodeJsUrl = 'http://' + environment.nodeJsUrl;
+  private nodeJsUrl = 'http://' + environment.APIKeys.serverurl;
   private nickName;
 
 

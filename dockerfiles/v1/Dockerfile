@@ -15,5 +15,3 @@ ENV City="Toronto"
 EXPOSE 4200
 RUN pwd
 CMD cd /home/node/chat-client && npm run-script build && npm start
-#CMD ['npm start']
-#ENTRYPOINT ['npm start']

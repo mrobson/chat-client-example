@@ -11,7 +11,7 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class ChatService {
 
-  private nodeJsUrl = 'http://' + environment.nodeJsUrl;
+  private nodeJsUrl = 'http://' + environment.APIKeys.serverurl;
   private socket;
   private messageList: Message[] = [];
   public allMessageChanged = new Subject();
